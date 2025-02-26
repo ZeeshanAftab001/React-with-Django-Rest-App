@@ -1,19 +1,29 @@
-import Header from "./components/header"
-import Footer from "./components/footer"
-import Login from "./components/login"
+import { Routes, Route } from "react-router-dom";
+import ProtectRoute from "./components/ProtectRoute";
+import Login from "./components/Login"
+import Register from "./components/Register"
+import Home from "./Pages/Home.jsx"
+import Books from "./Pages/Books.jsx"
+import NotFound from "./Pages/NotFound.jsx"
 
 function App() {
-  
-
   return (
-    <div className="flex flex-col min-h-screen">
-     <main className="flex flex-col min-h-screen">
-      <Header />
-        <Login />
-      <Footer />
-      </main>
-    </div>
-  )
+    <Routes>
+      {/* Public Route */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* Protected Routes */}
+      <Route element={<ProtectRoute />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/books" element={<Books />} />
+      </Route>
+
+      {/* Catch-all 404 Route */}
+      <Route path="*" element={<NotFound />} />
+      
+    </Routes>
+  );
 }
 
-export default App
+export default App;

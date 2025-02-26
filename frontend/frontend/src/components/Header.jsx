@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../store/authSlice"; // Import your logout action
+import { logout } from "../store/authSlice"; // 
+import {useNavigate} from "react-router-dom"
 
 export default function Header() {
   const status = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
-  //const navigate = navigate();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
-    //navigate("/login");
+    navigate("/login");
   };
 
   const navItems = [

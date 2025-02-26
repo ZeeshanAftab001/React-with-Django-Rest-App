@@ -43,7 +43,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
 
         model=Book
-        fields=["name","author","price"]
+        fields=["id","name","author","price"]
     def create(self, validated_data):
         author_data = validated_data.pop("author")
         author, _ = Author.objects.get_or_create(**author_data)  
