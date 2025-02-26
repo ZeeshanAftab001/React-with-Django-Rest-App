@@ -13,20 +13,19 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ["username", "email", "password"]
 
-    def create(self, validated_data):
-        username = validated_data['username']
-        email = validated_data['email']
-        password = validated_data['password']
-
-        if User.objects.filter(username=username).exists():
+    def validate(self, data):
+        """Validate username and email before creating user."""
+        if User.objects.filter(username=data['username']).exists():
             raise serializers.ValidationError({"username": "This username is already taken."})
-        
-        if User.objects.filter(email=email).exists():
+
+        if User.objects.filter(email=data['email']).exists():
             raise serializers.ValidationError({"email": "This email is already registered."})
 
-        # Correct user creation method
-        user = User.objects.create_user(username=username, email=email, password=password)
-        return user  # Returning the created user instead of Response
+        return data
+
+    def create(self, validated_data):
+        """Create a new user with a hashed password."""
+        return User.objects.create_user(**validated_data)
 
 
 class LoginUserSerializer(serializers.Serializer):
